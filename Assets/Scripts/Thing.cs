@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Thing : MonoBehaviour {
@@ -16,7 +15,7 @@ public class Thing : MonoBehaviour {
     }
 
     void Update() {
-        bool areAllSameColor = true;
+        bool areAllBackgroundsInSameColor = true;
 
         foreach (GameObject point in startPoints) {
             Vector3 direction = point.transform.position - Camera.main.transform.position;
@@ -27,18 +26,14 @@ public class Thing : MonoBehaviour {
             RaycastHit hit;
             if ( Physics.Raycast(ray, out hit, 100f, LayerMask.GetMask("Background")) ) {
                 if (color != hit.collider.gameObject.GetComponent<Background>().color) {
-                    areAllSameColor = false; // if any of these point gives a false, do not remove the thing
-                    Debug.Log(hit.collider.gameObject.GetComponent<Background>().color);
-                } else {
-                    Debug.Log(hit.collider.gameObject.GetComponent<Background>().color);
+                    areAllBackgroundsInSameColor = false; // if any of these points gives a false, do not remove the thing
                 }
             } else {
-                areAllSameColor = false;
-                Debug.Log("No Background");
+                areAllBackgroundsInSameColor = false;
             }
         }
 
-        if (areAllSameColor) {
+        if (areAllBackgroundsInSameColor) {
             Destroy(this.gameObject);
         }
     }
